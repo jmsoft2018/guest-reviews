@@ -25,7 +25,7 @@
   "autoload": {
     "psr-4": {
       "GuestReviews\\": "src",
-      "GuestReviews\\Controllers\\": "../../guest-reviews/controllers"
+      "GuestReviews\\Controllers\\": "../../../guest-reviews/controllers"
     }
   },
   "extra": {
