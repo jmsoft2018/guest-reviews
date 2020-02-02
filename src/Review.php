@@ -13,4 +13,8 @@ class Review extends Model
      */
     protected $table = 'gr_reviews';
 
+    public function author()
+    {
+        return $this->belongsTo('GuestReviews\Guest', 'foreign_key', 'other_key');
+    }
 }

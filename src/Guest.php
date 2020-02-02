@@ -13,4 +13,9 @@ class Guest extends Model
      */
     protected $table = 'gr_guests';
 
+    public function reviews()
+    {
+        return $this->hasMany('GuestReviews\Review', 'author_id', 'id');
+    }
+
 }
