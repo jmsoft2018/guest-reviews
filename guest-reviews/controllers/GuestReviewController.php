@@ -7,6 +7,6 @@ use App\Http\Controllers\Controller;
 class GuestReviewController extends Controller
 {
     public function index(){
-        return view('guest-reviews.index');
+        return view('guest-reviews::index');
     }
 }
