@@ -23,6 +23,11 @@ class GuestReviewsServiceProvider extends ServiceProvider {
         if(is_dir(base_path('guest-reviews/views'))) {
             $this->loadViewsFrom(base_path('guest-reviews/views'), 'guest-reviews');
         }
+
+        //Подгружаем миграции
+        if(is_dir(base_path('guest-reviews/migrations'))) {
+            $this->loadMigrationsFrom(base_path('guest-reviews/migrations'));
+        }
     }
 
     public function register(){
