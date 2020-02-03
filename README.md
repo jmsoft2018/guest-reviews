@@ -9,7 +9,6 @@
 ``` bash
 $ composer require jmsoft/guest-reviews
 ```
-
 ####Настройка
 
 Публикация нужные файлы
