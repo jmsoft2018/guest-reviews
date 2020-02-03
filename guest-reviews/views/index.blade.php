@@ -1,99 +1,88 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('guest-reviews::layout')
 
-    <title>J&M soft</title>
+@section('content')
+    <div class="container">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        @if (isset($success))
+            <div class="alert alert-success">Сделано!</div>
+        @endif
 
-    <!-- Styles -->
-    <style>
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
-</head>
-<body>
-<div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-        <div class="top-right links">
-            @auth
-                <a href="{{ url('/home') }}">Home</a>
-            @else
-                <a href="{{ route('login') }}">Login</a>
-
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}">Register</a>
-                @endif
-            @endauth
+        <div class="row">
+            @foreach($reviews as $review)
+                <div class="col-12">
+                    <div class="card border-success mb-3">
+                        <div class="card-header bg-transparent border-success text-success">
+                            {{$review->author}}
+                            <span class="badge badge-light badge-secondary">{{$review->created_at}}</span>
+                            <form action="{{ route('guest-reviews.destroy', $review->id) }}" method="post" class="close">
+                                {{ method_field('DELETE')}}
+                                {{csrf_field()}}
+                                <button type="submit" title="Удалить">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{$review->text}}</p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
-    @endif
-
-    <div class="content">
-        <div class="title m-b-md">
-            J&M soft
-        </div>
-
-        <div class="links">
-            <a href="https://laravel.com/docs">Docs</a>
-            <a href="https://laracasts.com">Laracasts</a>
-            <a href="https://laravel-news.com">News</a>
-            <a href="https://blog.laravel.com">Blog</a>
-            <a href="https://nova.laravel.com">Nova</a>
-            <a href="https://forge.laravel.com">Forge</a>
-            <a href="https://github.com/laravel/laravel">GitHub</a>
-        </div>
+        <form action="<?= route('guest-reviews')?>" method="post" class="needs-validation" novalidate>
+            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+            <div class="card border-success m-1">
+                <div class="card-body text-success">
+                    <h5 class="card-title">
+                        <label for="">Добавьте свой отзыв</label>
+                    </h5>
+                    <p>
+                        <div class="form-group">
+                            <label for="review-author">Имя автора</label>
+                            <input name="author" type="text" class="form-control" id="review-author" required>
+                            <div class="invalid-feedback">Введите имя автора!</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-text">Cообщение</label>
+                            <textarea name="text" class="form-control" id="review-text" rows="3" required></textarea>
+                            <div class="invalid-feedback">Введите текст сообщения!</div>
+                        </div>
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-success">
+                    <input type="submit" value="Добавить" class="btn btn-outline-success">
+                </div>
+            </div>
+        </form>
     </div>
-</div>
-</body>
-</html>
+
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+@endsection
