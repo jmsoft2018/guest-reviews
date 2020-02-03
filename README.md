@@ -9,7 +9,7 @@
 ``` bash
 $ composer require jmsoft/guest-reviews
 ```
-####Настройка
+#### Настройка
 
 Публикация нужные файлы
 ``` bash
@@ -21,6 +21,6 @@ $ php artisan vendor:publish --provider="GuestReviews\GuestReviewsServiceProvide
 $ php artisan migrate
 ```
 
-####Использование
+#### Использование
 Заходите по путам `path_to_your_site/guest-reviews`.
 Пример: `http://exsample.com/guest-reviews`
